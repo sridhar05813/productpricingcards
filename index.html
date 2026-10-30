@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Product Pricing Cards</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Inter & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            400: '#818cf8',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                        },
+                        accent: {
+                            purple: '#a855f7',
+                            pink: '#ec4899',
+                            cyan: '#06b6d4'
+                        }
+                    },
+                    boxShadow: {
+                        'glow': '0 0 25px -5px rgba(99, 102, 241, 0.4)',
+                        'glow-lg': '0 0 40px -5px rgba(99, 102, 241, 0.6)',
+                        'card-hover': '0 20px 30px -10px rgba(0, 0, 0, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Modern Glassmorphism & Custom Gradient Hover FX */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(229, 231, 235, 0.8);
+        }
+        .dark .glass-card {
+            background: rgba(17, 24, 39, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(55, 65, 81, 0.5);
+        }
+
+        .popular-glow {
+            box-shadow: 0 0 35px -5px rgba(99, 102, 241, 0.35);
+        }
+        .dark .popular-glow {
+            box-shadow: 0 0 40px -5px rgba(99, 102, 241, 0.25);
+        }
+
+        /* Ribbon Ribbon Corner Banner Styling */
+        .ribbon-wrapper {
+            width: 130px;
+            height: 130px;
+            overflow: hidden;
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            pointer-events: none;
+            z-index: 20;
+        }
+        .ribbon {
+            font-size: 0.70rem;
+            font-weight: 700;
+            color: #fff;
+            text-transform: uppercase;
+            text-align: center;
+            line-height: 24px;
+            transform: rotate(45deg);
+            width: 160px;
+            display: block;
+            position: absolute;
+            top: 28px;
+            right: -36px;
+            box-shadow: 0 3px 10px -5px rgba(0,0,0,0.3);
+            letter-spacing: 0.05em;
+        }
+
+        /* Switch Toggle Smooth Transition */
+        .dot {
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Feature Check Icons Animate */
+        .pricing-card:hover .check-icon {
+            transform: scale(1.15);
+            transition: transform 0.2s ease;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans min-h-screen transition-colors duration-300 relative overflow-x-hidden selection:bg-brand-500 selection:text-white">
+
+    <!-- Background Decoration Glows -->
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 pointer-events-none overflow-hidden -z-10">
+        <div class="absolute -top-32 left-1/4 w-96 h-96 bg-brand-500/20 dark:bg-brand-500/10 rounded-full blur-3xl"></div>
+        <div class="absolute top-10 right-1/4 w-96 h-96 bg-accent-pink/20 dark:bg-accent-pink/10 rounded-full blur-3xl"></div>
+    </div>
+
+    <!-- Header & Dark Mode Bar -->
+    <header class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-4 flex justify-between items-center">
+        <div class="flex items-center space-x-2">
+            <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-600 to-accent-purple flex items-center justify-center text-white shadow-md">
+                <i class="fa-solid fa-bolt text-lg"></i>
+            </div>
+            <span class="font-heading text-xl font-bold tracking-tight bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-300 bg-clip-text text-transparent">
+                PulseCloud
+            </span>
+        </div>
+
+        <!-- Dark Mode Toggle Button -->
+        <button id="themeToggle" class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all shadow-sm focus:outline-none">
+            <i class="fa-solid fa-sun text-lg hidden dark:block text-amber-400"></i>
+            <i class="fa-solid fa-moon text-lg block dark:hidden text-slate-600"></i>
+        </button>
+    </header>
+
+    <!-- Main Pricing Section -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-20">
+        
+        <!-- Hero Title Header -->
+        <div class="text-center max-w-3xl mx-auto mb-12">
+            <span class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400 border border-brand-100 dark:border-brand-500/20 mb-4">
+                <i class="fa-solid fa-sparkles text-xs"></i> Flexible Plans
+            </span>
+            <h1 class="font-heading text-4xl sm:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-tight">
+                Simple, transparent pricing for teams of any size
+            </h1>
+            <p class="mt-4 text-base sm:text-lg text-slate-600 dark:text-slate-400">
+                Unlock high-performance tools, analytics, and automation. Switch plans or cancel anytime with zero hidden fees.
+            </p>
+
+            <!-- Billing Toggle Switch -->
+            <div class="mt-8 inline-flex items-center bg-slate-200/80 dark:bg-slate-900/90 p-1.5 rounded-2xl border border-slate-300/60 dark:border-slate-800 shadow-inner">
+                <span id="monthlyLabel" class="text-sm font-semibold px-4 py-2 cursor-pointer transition-colors duration-200 text-slate-900 dark:text-white">
+                    Monthly
+                </span>
+                
+                <label for="billingToggle" class="flex items-center cursor-pointer relative">
+                    <input type="checkbox" id="billingToggle" class="sr-only">
+                    <div class="w-14 h-8 bg-slate-300 dark:bg-slate-800 rounded-full transition-colors duration-300"></div>
+                    <div class="dot absolute left-1 top-1 bg-white dark:bg-brand-500 w-6 h-6 rounded-full shadow-md"></div>
+                </label>
+
+                <div id="yearlyLabel" class="text-sm font-medium px-4 py-2 cursor-pointer transition-colors duration-200 text-slate-500 dark:text-slate-400 flex items-center gap-2">
+                    <span>Yearly</span>
+                    <span class="bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-400 text-xs font-bold px-2 py-0.5 rounded-full border border-emerald-300 dark:border-emerald-500/30">
+                        Save 20%
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pricing Cards Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch pt-4">
+            
+            <!-- 1. Starter Tier -->
+            <div class="pricing-card glass-card rounded-3xl p-8 flex flex-col justify-between relative transition-all duration-300 hover:-translate-y-2 hover:shadow-card-hover group border border-slate-200 dark:border-slate-800">
+                <div>
+                    <div class="flex justify-between items-center mb-4">
+                        <div class="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center text-xl font-bold">
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </div>
+                    </div>
+                    <h3 class="font-heading text-2xl font-bold text-slate-900 dark:text-white">Starter</h3>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">Essential features for individuals and small side projects.</p>
+
+                    <!-- Price Display -->
+                    <div class="mt-6 mb-6 flex items-baseline">
+                        <span class="text-slate-500 dark:text-slate-400 text-2xl font-bold">$</span>
+                        <span class="price-amount text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight font-heading" data-monthly="15" data-yearly="12">15</span>
+                        <span class="billing-period text-slate-500 dark:text-slate-400 font-medium ml-2 text-sm">/ month</span>
+                    </div>
+
+                    <hr class="border-slate-200 dark:border-slate-800 mb-6">
+
+                    <!-- Features List -->
+                    <ul class="space-y-4 text-sm text-slate-600 dark:text-slate-300 mb-8">
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-circle-check check-icon text-brand-500 dark:text-brand-400 text-base"></i>
+                            <span>Up to <strong>3 Projects</strong></span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-circle-check check-icon text-brand-500 dark:text-brand-400 text-base"></i>
+                            <span>Basic Analytics & Reports</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-circle-check check-icon text-brand-500 dark:text-brand-400 text-base"></i>
+                            <span>5GB Cloud Storage</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-slate-400 dark:text-slate-600 line-through">
+                            <i class="fa-solid fa-circle-xmark text-slate-300 dark:text-slate-700 text-base"></i>
+                            <span>Custom Domain Integration</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-slate-400 dark:text-slate-600 line-through">
+                            <i class="fa-solid fa-circle-xmark text-slate-300 dark:text-slate-700 text-base"></i>
+                            <span>24/7 Priority Support</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <button class="w-full py-3.5 px-6 rounded-2xl font-semibold text-sm bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-900 dark:text-white transition-all duration-200 focus:ring-4 focus:ring-slate-200 dark:focus:ring-slate-800">
+                    Get Started Free
+                </button>
+            </div>
+
+            <!-- 2. Pro Tier (Popular Card) -->
+            <div class="pricing-card glass-card rounded-3xl p-8 flex flex-col justify-between relative transition-all duration-300 hover:-translate-y-2 hover:shadow-glow-lg group border-2 border-brand-500 dark:border-brand-500 popular-glow lg:-mt-4 lg:mb-0">
+                
+                <!-- Ribbon Badge -->
+                <div class="ribbon-wrapper">
+                    <div class="ribbon bg-gradient-to-r from-brand-600 to-accent-purple">Popular</div>
+                </div>
+
+                <div>
+                    <div class="flex justify-between items-center mb-4">
+                        <div class="w-12 h-12 rounded-2xl bg-brand-100 dark:bg-brand-500/20 text-brand-600 dark:text-brand-400 flex items-center justify-center text-xl font-bold">
+                            <i class="fa-solid fa-rocket"></i>
+                        </div>
+                        <span class="text-xs font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400 bg-brand-50 dark:bg-brand-500/10 px-3 py-1 rounded-full border border-brand-200 dark:border-brand-500/30">
+                            Most Loved
+                        </span>
+                    </div>
+
+                    <h3 class="font-heading text-2xl font-bold text-slate-900 dark:text-white">Pro Studio</h3>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">Ideal for fast-growing businesses & professional teams.</p>
+
+                    <!-- Price Display -->
+                    <div class="mt-6 mb-6 flex items-baseline">
+                        <span class="text-brand-500 dark:text-brand-400 text-2xl font-bold">$</span>
+                        <span class="price-amount text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight font-heading" data-monthly="49" data-yearly="39">49</span>
+                        <span class="billing-period text-slate-500 dark:text-slate-400 font-medium ml-2 text-sm">/ month</span>
+                    </div>
+
+                    <hr class="border-slate-200 dark:border-slate-800 mb-6">
+
+                    <!-- Features List -->
+                    <ul class="space-y-4 text-sm text-slate-600 dark:text-slate-300 mb-8">
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-circle-check check-icon text-brand-500 dark:text-brand-400 text-base"></i>
+                            <span><strong>Unlimited</strong> Active Projects</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-circle-check check-icon text-brand-500 dark:text-brand-400 text-base"></i>
+                            <span>Advanced AI Predictive Analytics</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-circle-check check-icon text-brand-500 dark:text-brand-400 text-base"></i>
+                            <span>100GB High-Speed Cloud Storage</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-circle-check check-icon text-brand-500 dark:text-brand-400 text-base"></i>
+                            <span>Custom Domain Integration</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-circle-check check-icon text-brand-500 dark:text-brand-400 text-base"></i>
+                            <span>Priority Email & Chat Support</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <button class="w-full py-3.5 px-6 rounded-2xl font-semibold text-sm bg-gradient-to-r from-brand-600 to-accent-purple hover:from-brand-700 hover:to-accent-purple/90 text-white shadow-lg shadow-brand-500/30 transition-all duration-200 focus:ring-4 focus:ring-brand-500/50">
+                    Start 14-Day Free Trial
+                </button>
+            </div>
+
+            <!-- 3. Enterprise Tier -->
+            <div class="pricing-card glass-card rounded-3xl p-8 flex flex-col justify-between relative transition-all duration-300 hover:-translate-y-2 hover:shadow-card-hover group border border-slate-200 dark:border-slate-800">
+                
+                <!-- Ribbon Badge -->
+                <div class="ribbon-wrapper">
+                    <div class="ribbon bg-slate-800 dark:bg-slate-700">Best Value</div>
+                </div>
+
+                <div>
+                    <div class="flex justify-between items-center mb-4">
+                        <div class="w-12 h-12 rounded-2xl bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center text-xl font-bold">
+                            <i class="fa-solid fa-building"></i>
+                        </div>
+                    </div>
+                    <h3 class="font-heading text-2xl font-bold text-slate-900 dark:text-white">Enterprise</h3>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">Custom control, dedicated security, and scaled infrastructure.</p>
+
+                    <!-- Price Display -->
+                    <div class="mt-6 mb-6 flex items-baseline">
+                        <span class="text-slate-500 dark:text-slate-400 text-2xl font-bold">$</span>
+                        <span class="price-amount text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight font-heading" data-monthly="129" data-yearly="99">129</span>
+                        <span class="billing-period text-slate-500 dark:text-slate-400 font-medium ml-2 text-sm">/ month</span>
+                    </div>
+
+                    <hr class="border-slate-200 dark:border-slate-800 mb-6">
+
+                    <!-- Features List -->
+                    <ul class="space-y-4 text-sm text-slate-600 dark:text-slate-300 mb-8">
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-circle-check check-icon text-brand-500 dark:text-brand-400 text-base"></i>
+                            <span>Everything in <strong>Pro Studio</strong></span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-circle-check check-icon text-brand-500 dark:text-brand-400 text-base"></i>
+                            <span>Unlimited Dedicated Storage</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-circle-check check-icon text-brand-500 dark:text-brand-400 text-base"></i>
+                            <span>Custom API & SSO Integration</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-circle-check check-icon text-brand-500 dark:text-brand-400 text-base"></i>
+                            <span>Dedicated Account Manager</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-circle-check check-icon text-brand-500 dark:text-brand-400 text-base"></i>
+                            <span>99.99% SLA Uptime Guarantee</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <button class="w-full py-3.5 px-6 rounded-2xl font-semibold text-sm bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-100 text-white dark:text-slate-900 transition-all duration-200 focus:ring-4 focus:ring-slate-900/30 dark:focus:ring-white/30">
+                    Contact Sales
+                </button>
+            </div>
+
+        </div>
+
+        <!-- FAQ Quick Section -->
+        <div class="mt-20 max-w-3xl mx-auto text-center">
+            <h2 class="font-heading text-xl font-bold text-slate-900 dark:text-white">Need a custom plan?</h2>
+            <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Have special security requirements or high throughput needs? <a href="#" class="text-brand-600 dark:text-brand-400 font-medium underline underline-offset-4 hover:text-brand-700">Talk to our solutions team</a></p>
+        </div>
+    </main>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // DOM Elements
+        const themeToggleBtn = document.getElementById('themeToggle');
+        const billingToggle = document.getElementById('billingToggle');
+        const monthlyLabel = document.getElementById('monthlyLabel');
+        const yearlyLabel = document.getElementById('yearlyLabel');
+        const priceAmounts = document.querySelectorAll('.price-amount');
+        const billingPeriods = document.querySelectorAll('.billing-period');
+        const dot = document.querySelector('.dot');
+
+        // Dark Mode Logic
+        themeToggleBtn.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+        });
+
+        // Billing Cycle Toggle Logic
+        function updatePricing(isYearly) {
+            priceAmounts.forEach(priceEl => {
+                const targetPrice = isYearly ? priceEl.getAttribute('data-yearly') : priceEl.getAttribute('data-monthly');
+                
+                // Animated Price Transition
+                priceEl.classList.add('opacity-0', 'scale-95');
+                setTimeout(() => {
+                    priceEl.textContent = targetPrice;
+                    priceEl.classList.remove('opacity-0', 'scale-95');
+                }, 150);
+            });
+
+            billingPeriods.forEach(period => {
+                period.textContent = isYearly ? '/ month (billed yearly)' : '/ month';
+            });
+
+            if (isYearly) {
+                dot.style.transform = 'translateX(24px)';
+                yearlyLabel.classList.add('text-slate-900', 'dark:text-white', 'font-semibold');
+                yearlyLabel.classList.remove('text-slate-500', 'dark:text-slate-400', 'font-medium');
+                monthlyLabel.classList.remove('text-slate-900', 'dark:text-white', 'font-semibold');
+                monthlyLabel.classList.add('text-slate-500', 'dark:text-slate-400', 'font-medium');
+            } else {
+                dot.style.transform = 'translateX(0px)';
+                monthlyLabel.classList.add('text-slate-900', 'dark:text-white', 'font-semibold');
+                monthlyLabel.classList.remove('text-slate-500', 'dark:text-slate-400', 'font-medium');
+                yearlyLabel.classList.remove('text-slate-900', 'dark:text-white', 'font-semibold');
+                yearlyLabel.classList.add('text-slate-500', 'dark:text-slate-400', 'font-medium');
+            }
+        }
+
+        // Toggle Switch Listener
+        billingToggle.addEventListener('change', (e) => {
+            updatePricing(e.target.checked);
+        });
+
+        // Clickable Labels
+        monthlyLabel.addEventListener('click', () => {
+            if (billingToggle.checked) {
+                billingToggle.checked = false;
+                updatePricing(false);
+            }
+        });
+
+        yearlyLabel.addEventListener('click', () => {
+            if (!billingToggle.checked) {
+                billingToggle.checked = true;
+                updatePricing(true);
+            }
+        });
+
+        // Add CSS Transition for price numbers
+        priceAmounts.forEach(el => {
+            el.classList.add('transition-all', 'duration-200');
+        });
+    </script>
+</body>
+</html>
